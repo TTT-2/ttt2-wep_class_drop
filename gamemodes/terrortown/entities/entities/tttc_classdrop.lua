@@ -11,7 +11,7 @@ ENT.Author = "Alf21"
 ENT.Purpose = "For TTTC"
 
 function ENT:Initialize()
-    self:SetModel("models/props_c17/oildrum001.mdl")
+    self:SetModel("models/props_junk/cardboard_box003b_gib01.mdl")
     self:SetMoveType(MOVETYPE_VPHYSICS)
     self:SetSolid(SOLID_VPHYSICS)
     
@@ -29,6 +29,8 @@ end
 if SERVER then
     function ENT:TakeClass(ply)
         if not ply or not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() or ply:HasWeapon("weapon_ttt_classdrop") then return end
+        
+        if GetRoundState() ~= ROUND_ACTIVE then return end
 
         -- should never happen
         if ply:HasCustomClass() then
@@ -37,24 +39,30 @@ if SERVER then
 
         ply:UpdateCustomClass(self:GetNWInt("customClass"))
         
-        for _, v in pairs(self.classWeapons) do
-            ply:GiveClassWeapon(v:GetClass())
-            
-            ply:GiveAmmo(v:Ammo1(), v:GetPrimaryAmmoType(), true)
-            ply:GiveAmmo(v:Ammo2(), v:GetSecondaryAmmoType(), true)
+        if self.classWeapons then
+            for _, v in pairs(self.classWeapons) do
+                local wep = ply:GiveClassWeapon(v.class)
+                
+                wep:SetClip1(v.clip1)
+                wep:SetClip2(v.clip2)
+            end
         end
         
         ply:Give("weapon_ttt_classdrop")
         
-        for _, v in pairs(self.classEquipment) do
-            ply:GiveClassEquipmentItem(v)
+        if self.classEquipment then
+            for _, v in pairs(self.classEquipment) do
+                if v then
+                    ply:GiveClassEquipmentItem(v)
+                end
+            end
         end
         
         for k, v in pairs(DROPCLASSENTS) do
             if v == self then
                 table.remove(DROPCLASSENTS, k)
                 
-                self:Remove()
+                SafeRemoveEntity(self)
             end
         end
     end

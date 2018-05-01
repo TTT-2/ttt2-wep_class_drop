@@ -16,7 +16,7 @@ if CLIENT then
    SWEP.PrintName = "ClassDropper"	
    SWEP.Author = "Alf21"
    
-   SWEP.Slot = 6
+   SWEP.Slot = 12
    
    SWEP.ViewModelFOV = 10
    
@@ -58,49 +58,23 @@ function SWEP:PrimaryAttack()
     
     self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
     
-    self:ClassDrop()
+    self.OldOwner = self.Weapon:GetOwner()
+    
+    if SERVER then
+        self.OldOwner:DropWeapon(self)
+    end
 end
 
--- mostly replicating HL2DM slam throw here
-function SWEP:ClassDrop()
-    if SERVER then
-        local ply = self.Owner
+function SWEP:Equip(NewOwner)
+    self.OldOwner = NewOwner
+end
 
-        if not IsValid(ply) then return end
-
-        local drop = ents.Create("tttc_classdrop")
-        
-        if not IsValid(drop) then return end
-
-        drop:SetNWInt("customClass", ply:GetCustomClass())
-        drop.classWeapons = table.Copy(ply.classWeapons or {})
-        drop.classEquipment = table.Copy(ply.classEquipment or {})
-        
-        ply:ResetCustomClass()
-        
-        local vsrc = ply:GetShootPos()
-        local vang = ply:GetAimVector()
-        local vvel = ply:GetVelocity()
-
-        local vthrow = vvel + vang * 100
-        
-        drop:SetPos(vsrc + vang * 10)
-        drop:Spawn()
-        
-        table.insert(DROPCLASSENTS, drop)
-
-        drop:PhysWake()
-
-        local phys = drop:GetPhysicsObject()
-
-        if IsValid(phys) then
-            phys:SetVelocity(vthrow)
-        end
-
-        ply:SetAnimation(PLAYER_ATTACK1)
+function SWEP:OnDrop()
+    if SERVER and GetRoundState() == ROUND_ACTIVE then
+        DropCustomClass(self.OldOwner)
     end
 
-    self:Remove()
+    SafeRemoveEntity(self)
 end
 
 function SWEP:Reload()
