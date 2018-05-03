@@ -36,7 +36,7 @@ if SERVER then
             drop.classWeapons = tbl
         end
         
-        drop.classEquipment = ply.classEquipment
+        drop.classItems = ply.classItems
         
         ply:ResetCustomClass()
         

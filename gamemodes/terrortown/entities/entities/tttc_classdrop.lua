@@ -41,19 +41,18 @@ if SERVER then
         
         if self.classWeapons then
             for _, v in pairs(self.classWeapons) do
-                local wep = ply:GiveClassWeapon(v.class)
-                
-                wep:SetClip1(v.clip1)
-                wep:SetClip2(v.clip2)
+                if v then
+                    ply:GiveServerClassWeapon(v.class, v.clip1, v.clip2)
+                end
             end
         end
         
         ply:Give("weapon_ttt_classdrop")
         
-        if self.classEquipment then
-            for _, v in pairs(self.classEquipment) do
-                if v then
-                    ply:GiveClassEquipmentItem(v)
+        if self.classItems then
+            for _, id in pairs(self.classItems) do
+                if id then
+                    ply:GiveServerClassItem(id)
                 end
             end
         end

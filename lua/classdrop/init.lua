@@ -10,15 +10,19 @@ hook.Add("TTTCDropClass", "TTTCClassDropAddon", function(ply)
 end)
 
 -- todo blocks slot?
-hook.Add("TTT2_PreReceiveCustomClass", "TTTCClassDropAddonPost", function(ply)
-    if not ply:HasWeapon("weapon_ttt_classdrop") then
-        ply:Give("weapon_ttt_classdrop")
+hook.Add("TTTCPreReceiveCustomClasses", "TTTCClassDropAddonPost", function()
+    for _, ply in pairs(player.GetAll()) do
+        if not ply:HasWeapon("weapon_ttt_classdrop") then
+            ply:Give("weapon_ttt_classdrop")
+        end
     end
 end)
 
-hook.Add("TTT2_PostReceiveCustomClass", "TTTCClassDropAddonPost", function(ply)
-    if not ply:HasWeapon("weapon_ttt_classdrop") then
-        ply:Give("weapon_ttt_classdrop")
+hook.Add("TTTCPostReceiveCustomClasses", "TTTCClassDropAddonPost", function()
+    for _, ply in pairs(player.GetAll()) do
+        if not ply:HasWeapon("weapon_ttt_classdrop") then
+            ply:Give("weapon_ttt_classdrop")
+        end
     end
 end)
 
@@ -42,6 +46,16 @@ hook.Add("TTTEndRound", "TTTCDropClassPrepare", function()
     end
     
     DROPCLASSENTS = {}
+end)
+
+hook.Add("PlayerCanPickupWeapon", "TTTCPickupClassDropper", function(ply, wep)
+    if ply:HasCustomClass() then
+        local wepClass = wep:GetClass()
+    
+        if wepClass == "weapon_ttt_classdrop" and not ply:HasWeapon("weapon_ttt_classdrop") then
+            return true
+        end
+    end
 end)
 
 --[[
