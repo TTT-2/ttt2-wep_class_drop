@@ -1,8 +1,6 @@
 -- server
 include("classdrop/server/functions.lua")
 
-util.AddNetworkString("TTT2_SendCustomClass")
-
 DROPCLASSENTS = {}
     
 hook.Add("TTTCDropClass", "TTTCClassDropAddon", function(ply)
