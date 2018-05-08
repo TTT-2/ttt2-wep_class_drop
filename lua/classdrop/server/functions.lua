@@ -36,7 +36,8 @@ if SERVER then
             drop.classWeapons = tbl
         end
         
-        drop.classItems = ply.classItems
+        --drop.classItems = table.Copy(ply.classItems)
+        --drop.classItems.__index = drop.classItems
         
         ply:ResetCustomClass()
         

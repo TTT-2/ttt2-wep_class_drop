@@ -49,6 +49,7 @@ if SERVER then
         
         ply:Give("weapon_ttt_classdrop")
         
+        --[[
         if self.classItems then
             for _, id in pairs(self.classItems) do
                 if id then
@@ -56,6 +57,7 @@ if SERVER then
                 end
             end
         end
+        ]]--
         
         for k, v in pairs(DROPCLASSENTS) do
             if v == self then
