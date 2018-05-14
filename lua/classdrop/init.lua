@@ -50,7 +50,7 @@ hook.Add("PlayerCanPickupWeapon", "TTTCPickupClassDropper", function(ply, wep)
     if ply:HasCustomClass() then
         local wepClass = wep:GetClass()
     
-        if wepClass == "weapon_ttt_classdrop" and not ply:HasWeapon("weapon_ttt_classdrop") then
+        if wepClass == "weapon_ttt_classdrop" and not ply:HasWeapon(wepClass) then
             return true
         end
     end

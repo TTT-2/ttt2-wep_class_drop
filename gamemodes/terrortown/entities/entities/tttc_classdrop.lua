@@ -69,7 +69,9 @@ if SERVER then
     end
 
     function ENT:Use(activator)
-        self:TakeClass(activator)
+        if IsValid(activator) and activator:IsPlayer() and activator:IsActive() then
+            self:TakeClass(activator)
+        end
     end
 end
     
