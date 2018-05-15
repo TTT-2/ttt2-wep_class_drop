@@ -39,6 +39,8 @@ if SERVER then
         --drop.classItems = table.Copy(ply.classItems)
         --drop.classItems.__index = drop.classItems
         
+        ply.oldClass = ply:GetCustomClass()
+        
         ply:ResetCustomClass()
         
         local vsrc = ply:GetShootPos()
