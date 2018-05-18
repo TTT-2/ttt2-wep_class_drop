@@ -2,7 +2,7 @@ if SERVER then
     function DropCustomClass(ply)
         if GetRoundState() ~= ROUND_ACTIVE then return end
 
-        if not IsValid(ply) then return end
+        if not IsValid(ply) or not ply:IsPlayer() or not ply:HasCustomClass() then return end
 
         if ply:HasWeapon("weapon_ttt_classdrop") then
             ply:GetWeapon("weapon_ttt_classdrop").OldOwner = nil
@@ -13,8 +13,6 @@ if SERVER then
         local drop = ents.Create("tttc_classdrop")
             
         if not IsValid(drop) then return end
-        
-        drop:SetModel("models/props_junk/cardboard_box003b_gib01.mdl")
 
         drop:SetNWInt("customClass", ply:GetCustomClass())
         
@@ -38,6 +36,8 @@ if SERVER then
         
         --drop.classItems = table.Copy(ply.classItems)
         --drop.classItems.__index = drop.classItems
+        
+        hook.Run("TTTCCustomClassDrop", ply, drop)
         
         ply:ResetCustomClass()
         

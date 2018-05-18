@@ -28,10 +28,12 @@ end
 
 if SERVER then
     function ENT:TakeClass(ply)
-        if not ply or not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() or ply:HasWeapon("weapon_ttt_classdrop") then return end
-        
         if GetRoundState() ~= ROUND_ACTIVE then return end
+        
+        if not ply or not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() or ply:HasWeapon("weapon_ttt_classdrop") then return end
 
+        if hook.Run("TTTCClassDropNotPickupable", ply) then return end
+        
         -- should never happen
         if ply:HasCustomClass() then
             ply:ResetCustomClass()
