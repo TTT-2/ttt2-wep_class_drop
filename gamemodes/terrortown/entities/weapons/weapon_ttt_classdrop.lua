@@ -78,7 +78,7 @@ function SWEP:OnDrop()
 end
 
 function SWEP:Reload()
-   return false
+    return false
 end
 
 function SWEP:ShouldDropOnDie()
