@@ -100,15 +100,11 @@ if SERVER then
         end
     end
 else
-    local GetLang
-
     function ENT:Draw()
         if IsValid(self) then
             if not hook.Run("TTTCClassDropDraw", self) then
-                GetLang = GetLang or LANG.GetRawTranslation
-                
                 local cd = GetClassByIndex(self:GetNWInt("customClass"))
-                local pName = GetLang(cd.name) or cd.printName or cd.name
+                local pName = GetClassTranslation(cd)
             
                 self:DrawModel()
                 
