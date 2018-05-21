@@ -105,9 +105,10 @@ else
     function ENT:Draw()
         if IsValid(self) then
             if not hook.Run("TTTCClassDropDraw", self) then
-                GetLang = GetLang or LANG.GetUnsafeLanguageTable
+                GetLang = GetLang or LANG.GetRawTranslation
                 
-                local L = GetLang()
+                local cd = GetClassByIndex(self:GetNWInt("customClass"))
+                local pName = GetLang(cd.name) or cd.printName or cd.name
             
                 self:DrawModel()
                 
@@ -116,13 +117,12 @@ else
                 
                 surface.SetFont("Default")
                 
-                local txt = L[GetClassByIndex(self:GetNWInt("customClass")).name]
-                local width = surface.GetTextSize(txt) + 55
+                local width = surface.GetTextSize(pName) + 55
 
                 cam.Start3D2D(pos, ang, 0.3)
 
                 draw.RoundedBox(5, -width / 2 , -30, width, 15, Color(10, 90, 140, 100))
-                draw.SimpleText(txt, "ChatFont", 0, -30, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
+                draw.SimpleText(pName, "ChatFont", 0, -30, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
                 
                 cam.End3D2D()
             end
