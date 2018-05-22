@@ -51,7 +51,7 @@ SWEP.Kind = 25
 
 -- view / world
 SWEP.ViewModel = "models/weapons/v_crowbar.mdl"
-SWEP.WorldModel = "models/props_junk/cardboard_box003b_gib01.mdl"
+SWEP.WorldModel = "models/items/boxmrounds.mdl"
 
 function SWEP:PrimaryAttack()
     if not self:CanPrimaryAttack() then return end
