@@ -25,7 +25,7 @@ hook.Add("TTTCPostReceiveCustomClasses", "TTTCClassDropAddonPost", function()
 end)
 
 hook.Add("TTTPrepareRound", "TTTCDropClassPrepare", function()
-    for _, e in pairs(DROPCLASSENTS) do
+    for _, e in ipairs(DROPCLASSENTS) do
         SafeRemoveEntity(e)
     end
     
@@ -39,7 +39,7 @@ hook.Add("TTTEndRound", "TTTCDropClassPrepare", function()
         end
     end
 
-    for _, e in pairs(DROPCLASSENTS) do
+    for _, e in ipairs(DROPCLASSENTS) do
         SafeRemoveEntity(e)
     end
     

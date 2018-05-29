@@ -19,7 +19,7 @@ if SERVER then
         local tbl = {}
         
         if ply.classWeapons then
-            for _, wep in pairs(ply.classWeapons) do
+            for _, wep in ipairs(ply.classWeapons) do
                 local v = ply:GetWeapon(wep)
                 
                 if v and IsValid(v) then

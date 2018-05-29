@@ -46,7 +46,7 @@ if SERVER then
         ply:UpdateCustomClass(self:GetNWInt("customClass"))
         
         if self.classWeapons then
-            for _, v in pairs(self.classWeapons) do
+            for _, v in ipairs(self.classWeapons) do
                 if v then
                     ply:GiveServerClassWeapon(v.class, v.clip1, v.clip2)
                 end
@@ -65,11 +65,13 @@ if SERVER then
         end
         ]]--
         
-        for k, v in pairs(DROPCLASSENTS) do
+        for k, v in ipairs(DROPCLASSENTS) do
             if v == self then
-                table.remove(DROPCLASSENTS, k)
-                
                 SafeRemoveEntity(self)
+				
+                table.remove(DROPCLASSENTS, k)
+				
+				break
             end
         end
     end
