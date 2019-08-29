@@ -8,7 +8,7 @@ hook.Add("TTTCDropClass", "TTTCClassDropAddon", function(ply)
 end)
 
 -- todo blocks slot?
-hook.Add("TTTCPreReceiveCustomClasses", "TTTCClassDropAddonPost", function()
+hook.Add("TTTCPreReceiveClasses", "TTTCClassDropAddonPost", function()
     for _, ply in pairs(player.GetAll()) do
         if not ply:HasWeapon("weapon_ttt_classdrop") then
             ply:Give("weapon_ttt_classdrop")
@@ -16,7 +16,7 @@ hook.Add("TTTCPreReceiveCustomClasses", "TTTCClassDropAddonPost", function()
     end
 end)
 
-hook.Add("TTTCPostReceiveCustomClasses", "TTTCClassDropAddonPost", function()
+hook.Add("TTTCPostReceiveClasses", "TTTCClassDropAddonPost", function()
     for _, ply in pairs(player.GetAll()) do
         if not ply:HasWeapon("weapon_ttt_classdrop") then
             ply:Give("weapon_ttt_classdrop")

@@ -3,7 +3,9 @@ if SERVER then
     AddCSLuaFile("classdrop/cl_init.lua")
 
     -- include main file
-	include("classdrop/init.lua")
+    include("classdrop/init.lua")
+    
+    util.AddNetworkString("TTTCSetClassCooldownTS")
 else
     -- include main file
 	include("classdrop/cl_init.lua")

@@ -16,31 +16,20 @@ if SERVER then
 
         drop:SetNWInt("customClass", ply:GetCustomClass())
         
-        local tbl = {}
+        local oldClassCooldownTS = ply:GetClassCooldownTS()
+        local oldClassCooldown = ply:GetClassCooldown()
+        ply:UpdateClass(nil)
         
-        if ply.classWeapons then
-            for _, wep in ipairs(ply.classWeapons) do
-                local v = ply:GetWeapon(wep)
-                
-                if v and IsValid(v) then
-                    table.insert(tbl, {
-                        class = v:GetClass(),
-                        clip1 = v:Clip1(),
-                        clip2 = v:Clip2()
-                    })
-                end
-            end
-            
-            drop.classWeapons = tbl
-        end
-        
-        --drop.classItems = table.Copy(ply.classItems)
-        --drop.classItems.__index = drop.classItems
+        ply:SetClassCooldownTS(oldClassCooldownTS)
+        ply:SetClassCooldown(oldClassCooldown)
+
+        net.Start("TTTCSetClassCooldownTS")
+        net.WriteFloat(oldClassCooldownTS)
+        net.WriteFloat(oldClassCooldown)
+        net.Send(ply)
         
         hook.Run("TTTCCustomClassDrop", ply, drop)
-        
-        ply:ResetCustomClass()
-        
+
         local vsrc = ply:GetShootPos()
         local vang = ply:GetAimVector()
         local vvel = ply:GetVelocity()

@@ -39,31 +39,13 @@ if SERVER then
         if hook.Run("TTTCClassDropNotPickupable", ply) then return end
         
         -- should never happen
-        if ply:HasCustomClass() then
-            ply:ResetCustomClass()
+        if ply:HasClass() then
+            ply:UpdateClass(nil)
         end
 
-        ply:UpdateCustomClass(self:GetNWInt("customClass"))
-        
-        if self.classWeapons then
-            for _, v in ipairs(self.classWeapons) do
-                if v then
-                    ply:GiveServerClassWeapon(v.class, v.clip1, v.clip2)
-                end
-            end
-        end
+        ply:UpdateClass(self:GetNWInt("customClass"))
         
         ply:Give("weapon_ttt_classdrop")
-        
-        --[[
-        if self.classItems then
-            for _, id in pairs(self.classItems) do
-                if id then
-                    ply:GiveServerClassItem(id)
-                end
-            end
-        end
-        ]]--
         
         for k, v in ipairs(DROPCLASSENTS) do
             if v == self then
@@ -105,8 +87,8 @@ else
     function ENT:Draw()
         if IsValid(self) then
             if not hook.Run("TTTCClassDropDraw", self) then
-                local cd = GetClassByIndex(self:GetNWInt("customClass"))
-                local pName = GetClassTranslation(cd)
+                local cd = CLASS.GetClassDataByIndex(self:GetNWInt("customClass"))
+                local pName = cd and CLASS.GetClassTranslation(cd) or ""
             
                 self:DrawModel()
                 
