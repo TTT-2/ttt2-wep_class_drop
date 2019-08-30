@@ -23,10 +23,12 @@ if SERVER then
         ply:SetClassCooldownTS(oldClassCooldownTS)
         ply:SetClassCooldown(oldClassCooldown)
 
-        net.Start("TTTCSetClassCooldownTS")
-        net.WriteFloat(oldClassCooldownTS)
-        net.WriteFloat(oldClassCooldown)
-        net.Send(ply)
+        if(oldClassCooldown and oldClassCooldownTS) then
+            net.Start("TTTCSetClassCooldownTS")
+            net.WriteFloat(oldClassCooldownTS)
+            net.WriteFloat(oldClassCooldown)
+            net.Send(ply)
+        end
         
         hook.Run("TTTCCustomClassDrop", ply, drop)
 
