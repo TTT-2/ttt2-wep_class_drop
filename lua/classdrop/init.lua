@@ -7,9 +7,10 @@ hook.Add("TTTCDropClass", "TTTCClassDropAddon", function(ply)
     DropCustomClass(ply)
 end)
 
-hook.Add("TTTCUpdateClass", "TTTCClassDropAddonPost", function(ply, _, _)
-    if not ply:HasWeapon("weapon_ttt_classdrop") then
+hook.Add("TTTCUpdateClass", "TTTCClassDropAddonPost", function(ply, old, new)
+    if not ply:HasWeapon("weapon_ttt_classdrop") and not ply.got_classdropper then
         ply:Give("weapon_ttt_classdrop")
+        ply.got_classdropper = true
     end
 end)
 
@@ -19,6 +20,16 @@ hook.Add("TTTPrepareRound", "TTTCDropClassPrepare", function()
     end
     
     DROPCLASSENTS = {}
+
+    for _, ply in ipairs(player.GetAll()) do
+        ply.got_classdropper = false
+    end
+end)
+
+hook.Add("TTTBeginRound", "TTTCDropClassBegin", function()
+    for _, ply in ipairs(player.GetAll()) do
+        ply.got_classdropper = false
+    end    
 end)
 
 hook.Add("TTTEndRound", "TTTCDropClassPrepare", function()
@@ -33,6 +44,10 @@ hook.Add("TTTEndRound", "TTTCDropClassPrepare", function()
     end
     
     DROPCLASSENTS = {}
+    
+    for _, ply in ipairs(player.GetAll()) do
+        ply.got_classdropper = false
+    end
 end)
 
 hook.Add("PlayerCanPickupWeapon", "TTTCPickupClassDropper", function(ply, wep)
