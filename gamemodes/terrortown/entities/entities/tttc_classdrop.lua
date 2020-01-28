@@ -3,7 +3,6 @@ if SERVER then
 	AddCSLuaFile()
 end
 
-local ENT = {}
 ENT.Type = "anim"
 ENT.Base = "base_entity"
 ENT.PrintName = "tttc_classdrop"
@@ -11,6 +10,8 @@ ENT.Instructions = "Drops a custom class!"
 ENT.Spawnable = true
 ENT.Author = "Alf21"
 ENT.Purpose = "For TTTC"
+
+ENT.CanUseKey = true
 
 function ENT:Initialize()
 	self:SetHealth(50)
@@ -58,7 +59,7 @@ if SERVER then
 		end
 	end
 
-	function ENT:Use(activator)
+	function ENT:UseOverride(activator)
 		if IsValid(activator) and activator:IsPlayer() and activator:IsActive() then
 			self:TakeClass(activator)
 		end
