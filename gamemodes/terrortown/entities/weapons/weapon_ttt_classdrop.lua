@@ -13,19 +13,19 @@ SWEP.AutoSwitchTo = false
 SWEP.AutoSwitchFrom = false
 
 if CLIENT then
-   SWEP.PrintName = "ClassDropper"	
-   SWEP.Author = "Alf21"
-   
-   SWEP.ViewModelFOV = 10
-   
-   SWEP.EquipMenuData = {
-      type = "Weapon",
-      desc = "Throw your class away."
-   }
-   
-   SWEP.Icon = "vgui/ttt/icon_xmas_present"
+	SWEP.PrintName = "ClassDropper"
+	SWEP.Author = "Alf21"
+
+	SWEP.ViewModelFOV = 10
+
+	SWEP.EquipMenuData = {
+		type = "Weapon",
+		desc = "Throw your class away."
+	}
+
+	SWEP.Icon = "vgui/ttt/icon_xmas_present"
 end
-   
+
 SWEP.Slot = 9
 SWEP.SlotPos = 25
 
@@ -54,33 +54,33 @@ SWEP.ViewModel = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel = "models/items/boxmrounds.mdl"
 
 function SWEP:PrimaryAttack()
-    if not self:CanPrimaryAttack() then return end
-    
-    self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-    
-    self.OldOwner = self.Weapon:GetOwner()
-    
-    if SERVER then
-        self.OldOwner:DropWeapon(self)
-    end
+	if not self:CanPrimaryAttack() then return end
+
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
+
+	self.OldOwner = self:GetOwner()
+
+	if SERVER then
+		self.OldOwner:DropWeapon(self)
+	end
 end
 
 function SWEP:Equip(NewOwner)
-    self.OldOwner = NewOwner
+	self.OldOwner = NewOwner
 end
 
 function SWEP:OnDrop()
-    if SERVER and GetRoundState() == ROUND_ACTIVE then
-        DropCustomClass(self.OldOwner)
-    end
+	if SERVER and GetRoundState() == ROUND_ACTIVE then
+		DropCustomClass(self.OldOwner)
+	end
 
-    SafeRemoveEntity(self)
+	SafeRemoveEntity(self)
 end
 
 function SWEP:Reload()
-    return false
+	return false
 end
 
 function SWEP:ShouldDropOnDie()
-    return false
+	return false
 end
