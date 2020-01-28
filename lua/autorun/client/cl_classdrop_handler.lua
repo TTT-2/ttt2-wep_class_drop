@@ -41,4 +41,7 @@ hook.Add("Initialize", "ttt2_classdrop_init_lang", function()
 
 	LANG.AddToLanguage("English", "ttt_pickup_class", "Press [{usekey}] to pickup class")
 	LANG.AddToLanguage("Deutsch", "ttt_pickup_class", "Drücke [{usekey}] um Klasse aufzuheben")
+
+	LANG.AddToLanguage("English", "ttt_drop_class_help", "{primaryfire} drops the class")
+	LANG.AddToLanguage("Deutsch", "ttt_drop_class_help", "{primaryfire} um die Klasse wegzuwerfen")
 end)

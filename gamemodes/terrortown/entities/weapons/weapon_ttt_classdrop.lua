@@ -84,3 +84,11 @@ end
 function SWEP:ShouldDropOnDie()
 	return false
 end
+
+if CLIENT then
+	function SWEP:Initialize()
+		self:AddHUDHelp("ttt_drop_class_help", nil, true)
+
+		return self.BaseClass.Initialize(self)
+	end
+end
