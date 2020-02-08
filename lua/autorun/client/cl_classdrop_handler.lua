@@ -1,10 +1,3 @@
-net.Receive("TTTCSetClassCooldownTS", function()
-	local client = LocalPlayer()
-
-	client:SetClassCooldownTS(net.ReadFloat())
-	client:SetClassCooldown(net.ReadFloat())
-end)
-
 -- target ID
 hook.Add("TTTRenderEntityInfo", "ttt2_class_drop_render_entity_info", function(data, params)
 	local client = LocalPlayer()

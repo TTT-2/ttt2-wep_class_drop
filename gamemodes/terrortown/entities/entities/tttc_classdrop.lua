@@ -32,6 +32,49 @@ function ENT:Initialize()
 end
 
 if SERVER then
+	function ENT:SavePlayerClassInfo(ply)
+		local cd = CLASS.GetClassDataByIndex(self:GetNWInt("customClass"))
+		
+		self.amount = ply.classAmount
+		self.cooldownTS = ply.classCooldownTS
+		self.cooldown = ply.classCooldown
+
+		self.passiveWeapons = {}
+		if cd.passiveWeapons then
+			for _, cls in ipairs(cd.passiveWeapons) do
+				if ply:HasWeapon(cls) then
+					local wep = ply:GetWeapon(cls)
+					self.passiveWeapons[cls] = {clip1 = wep:Clip1(), clip2 = wep:Clip2()}
+				end
+			end
+		end
+	end
+
+	function ENT:ApplySavedClassInfo(ply)
+		local cd = CLASS.GetClassDataByIndex(self:GetNWInt("customClass"))
+		
+		ply.classAmount = self.amount
+		ply.classCooldownTS = self.cooldownTS
+		ply.classCooldown = self.cooldown
+
+		if cd.passiveWeapons then
+			for _, cls in ipairs(cd.passiveWeapons) do
+				if ply:HasWeapon(cls) then
+					local info = self.passiveWeapons[cls]
+					if info then
+						local wep = ply:GetWeapon(cls)
+						wep:SetClip1(info.clip1 or 0)
+						wep:SetClip2(info.clip2 or 0)
+					else
+						ply:StripWeapon(cls)
+					end
+				end
+			end
+		end
+
+		ply:SyncClassState()
+	end
+
 	function ENT:TakeClass(ply)
 		if GetRoundState() ~= ROUND_ACTIVE then return end
 
@@ -44,9 +87,8 @@ if SERVER then
 			ply:UpdateClass(nil)
 		end
 
-		ply:UpdateClass(self:GetNWInt("customClass"))
-
-		ply:Give("weapon_ttt_classdrop")
+		ply:UpdateClass(self:GetNWInt("customClass"))	
+		self:ApplySavedClassInfo(ply) 
 
 		for k, v in ipairs(DROPCLASSENTS) do
 			if v == self then

@@ -19,21 +19,9 @@ function DropCustomClass(ply)
 	if not IsValid(drop) then return end
 
 	drop:SetNWInt("customClass", ply:GetCustomClass())
-
-	local oldClassCooldownTS = ply:GetClassCooldownTS()
-	local oldClassCooldown = ply:GetClassCooldown()
+	drop:SavePlayerClassInfo(ply)
 
 	ply:UpdateClass(nil)
-
-	ply:SetClassCooldownTS(oldClassCooldownTS)
-	ply:SetClassCooldown(oldClassCooldown)
-
-	if oldClassCooldown and oldClassCooldownTS then
-		net.Start("TTTCSetClassCooldownTS")
-		net.WriteFloat(oldClassCooldownTS)
-		net.WriteFloat(oldClassCooldown)
-		net.Send(ply)
-	end
 
 	hook.Run("TTTCCustomClassDrop", ply, drop)
 
