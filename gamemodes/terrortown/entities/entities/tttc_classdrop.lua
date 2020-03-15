@@ -34,7 +34,7 @@ end
 if SERVER then
 	function ENT:SavePlayerClassInfo(ply)
 		local cd = CLASS.GetClassDataByIndex(self:GetNWInt("customClass"))
-		
+
 		self.amount = ply.classAmount
 		self.cooldownTS = ply.classCooldownTS
 		self.cooldown = ply.classCooldown
@@ -52,7 +52,7 @@ if SERVER then
 
 	function ENT:ApplySavedClassInfo(ply)
 		local cd = CLASS.GetClassDataByIndex(self:GetNWInt("customClass"))
-		
+
 		ply.classAmount = self.amount
 		ply.classCooldownTS = self.cooldownTS
 		ply.classCooldown = self.cooldown
@@ -87,8 +87,8 @@ if SERVER then
 			ply:UpdateClass(nil)
 		end
 
-		ply:UpdateClass(self:GetNWInt("customClass"))	
-		self:ApplySavedClassInfo(ply) 
+		ply:UpdateClass(self:GetNWInt("customClass"))
+		self:ApplySavedClassInfo(ply)
 
 		for k, v in ipairs(DROPCLASSENTS) do
 			if v == self then
