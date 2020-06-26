@@ -87,7 +87,7 @@ end
 
 if CLIENT then
 	function SWEP:Initialize()
-		self:AddHUDHelp("ttt_drop_class_help", nil, true)
+		self:AddTTT2HUDHelp("ttt_drop_class_help")
 
 		return self.BaseClass.Initialize(self)
 	end
