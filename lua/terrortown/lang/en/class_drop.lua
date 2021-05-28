@@ -1,4 +1,4 @@
-L = LANG.GetLanguageTableReference("english")
+L = LANG.GetLanguageTableReference("en")
 
 L["ttt_class_title"] = "Class: {class}"
 L["ttt_pickup_class"] = "Press [{usekey}] to pickup class"

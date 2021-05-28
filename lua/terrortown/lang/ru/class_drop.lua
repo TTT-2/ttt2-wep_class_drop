@@ -1,4 +1,4 @@
-L = LANG.GetLanguageTableReference("Русский")
+L = LANG.GetLanguageTableReference("ru")
 
 L["ttt_class_title"] = "Класс: {class}"
 L["ttt_pickup_class"] = "Нажмите [{usekey}], чтобы подобрать класс"
