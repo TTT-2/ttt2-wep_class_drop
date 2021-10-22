@@ -59,15 +59,17 @@ if SERVER then
 
 		if cd.passiveWeapons then
 			for _, cls in ipairs(cd.passiveWeapons) do
-				if ply:HasWeapon(cls) then
-					local info = self.passiveWeapons[cls]
-					if info then
-						local wep = ply:GetWeapon(cls)
-						wep:SetClip1(info.clip1 or 0)
-						wep:SetClip2(info.clip2 or 0)
-					else
-						ply:StripWeapon(cls)
-					end
+				if not ply:HasWeapon(cls) then continue end
+
+				local info = self.passiveWeapons[cls]
+
+				if info then
+					local wep = ply:GetWeapon(cls)
+
+					wep:SetClip1(info.clip1 or 0)
+					wep:SetClip2(info.clip2 or 0)
+				else
+					ply:StripWeapon(cls)
 				end
 			end
 		end
@@ -88,17 +90,20 @@ if SERVER then
 		end
 
 		ply:UpdateClass(self:GetNWInt("customClass"))
-		self:ApplySavedClassInfo(ply)
 
-		for k, v in ipairs(DROPCLASSENTS) do
-			if v == self then
-				SafeRemoveEntity(self)
+		timer.Simple(0, function()
+			self:ApplySavedClassInfo(ply)
 
-				table.remove(DROPCLASSENTS, k)
+			for k, v in ipairs(DROPCLASSENTS) do
+				if v == self then
+					SafeRemoveEntity(self)
 
-				break
+					table.remove(DROPCLASSENTS, k)
+
+					break
+				end
 			end
-		end
+		end)
 	end
 
 	function ENT:UseOverride(activator)
